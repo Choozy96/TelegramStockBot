@@ -6,6 +6,3 @@ def getLatestPrice(stockTicker: str) -> int:
     latestPrice = priceHistory.iloc[-1]['Close']
     print(latestPrice)
     return latestPrice
-
-if __name__ == "__main__":
-    getLatestPrice("msft")
