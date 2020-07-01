@@ -1,13 +1,14 @@
-import yfinance as yf
+from yahooquery import Ticker
 
 def getLatestPrice(stockTicker: str) -> str:
-    ticker = yf.Ticker(stockTicker)
-    priceHistory = ticker.history(period="1d")
-    if len(priceHistory) == 0:
-        return "There is no price history for the symbol {}".format(stockTicker)
+    ticker = Ticker(stockTicker)
+    info = ticker.price[stockTicker]
+    if 'regularMarketPrice' not in info:
+        return "There is no price history for the symbol {}".format(stockTicker.upper())
     else:
-        latestPrice = priceHistory.iloc[-1]['Close']
-        name = ticker.info['longName']
-        industry = ticker.info['industry']
-        currency = ticker.info['currency']
-        return ('{} : {}\nIndustry: {}\nPrice: {}${}'.format(name, stockTicker, industry, currency, latestPrice))
+        name = info['longName']
+        latestPrice = info['regularMarketPrice']
+        updateTime = info['regularMarketTime']
+        currency = info['currency']
+        industry = ticker.summary_profile[stockTicker]['industry']
+        return '{} : {}\nIndustry: {}\nPrice: {}${}\nLast Updated: {}'.format(name, stockTicker.upper(), industry, currency, latestPrice, updateTime)
