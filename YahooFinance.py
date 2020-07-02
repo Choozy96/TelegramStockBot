@@ -10,5 +10,6 @@ def getLatestPrice(stockTicker: str) -> str:
         latestPrice = info['regularMarketPrice']
         updateTime = info['regularMarketTime']
         currency = info['currency']
-        industry = ticker.summary_profile[stockTicker]['industry']
-        return '{} : {}\nIndustry: {}\nPrice: {}${}\nLast Updated: {}'.format(name, stockTicker.upper(), industry, currency, latestPrice, updateTime)
+        symbol = info['currencySymbol']
+        industry = ticker.summary_profile[stockTicker]['industry'] if 'industry' in ticker.summary_profile[stockTicker] else ''
+        return '{} : {}\nIndustry: {}\nPrice ({}): {}{}\nLast Updated: {}'.format(name, stockTicker.upper(), industry, currency, symbol, latestPrice, updateTime)
