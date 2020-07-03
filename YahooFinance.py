@@ -2,14 +2,18 @@ from yahooquery import Ticker
 
 def getLatestPrice(stockTicker: str) -> str:
     ticker = Ticker(stockTicker)
-    info = ticker.price[stockTicker]
-    if 'regularMarketPrice' not in info:
-        return "There is no price history for the symbol {}".format(stockTicker.upper())
-    else:
-        name = info['longName']
-        latestPrice = info['regularMarketPrice']
-        updateTime = info['regularMarketTime']
-        currency = info['currency']
-        symbol = info['currencySymbol']
-        industry = ticker.summary_profile[stockTicker]['industry'] if 'industry' in ticker.summary_profile[stockTicker] else ''
-        return '{} : {}\nIndustry: {}\nPrice ({}): {}{}\nLast Updated: {}'.format(name, stockTicker.upper(), industry, currency, symbol, latestPrice, updateTime)
+    tickerInfo = ticker.price
+    returnMessage = ''
+    for symbol in tickerInfo.keys():
+        info = tickerInfo[symbol]
+        if type(info) == str or 'regularMarketPrice' not in info:
+            returnMessage += 'Quote not found for ticker symbol: {}\n'.format(symbol.upper())
+        else:
+            name = info['longName']
+            latestPrice = info['regularMarketPrice']
+            updateTime = info['regularMarketTime']
+            currency = info['currency']
+            currencySymbol = info['currencySymbol']
+            industry = ticker.summary_profile[symbol]['industry'] if 'industry' in ticker.summary_profile[symbol] else ''
+            returnMessage += '{} : {}\nIndustry: {}\nPrice ({}): {}{}\nLast Updated: {}\n'.format(name, symbol.upper(), industry, currency, currencySymbol, latestPrice, updateTime)
+    return returnMessage
