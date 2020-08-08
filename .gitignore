@@ -2,3 +2,5 @@
 *.pyc
 /package
 .env
+Tests.py
+requirements.txt
