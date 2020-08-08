@@ -9,8 +9,8 @@ RDS_USER = os.getenv('RDS_USER')
 RDS_PASSWORD = os.getenv('RDS_PASSWORD')
 
 
-# engine = create_engine('mysql+pymysql://{}:{}@{}:3306/telegram_stock_bot'.format(RDS_USER, RDS_PASSWORD, RDS_ENDPOINT))
-engine = create_engine('mysql+pymysql://root:@localhost:3306/telegram_stock_bot') #for local
+engine = create_engine('mysql+pymysql://{}:{}@{}:3306/telegram_stock_bot'.format(RDS_USER, RDS_PASSWORD, RDS_ENDPOINT))
+# engine = create_engine('mysql+pymysql://root:@localhost:3306/telegram_stock_bot') #for local
 Session = sessionmaker(bind=engine)
 session = Session()
 
